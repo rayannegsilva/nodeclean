@@ -14,7 +14,8 @@ module.exports = {
         "@typescript-eslint/consistent-type-definitions": "off",
         "@typescript-eslint/no-namespace": "off",
         "@typescript-eslint/consistent-type-imports": "off",
-        "@typescript-eslint/no-confusing-void-expression": "off"
+        "@typescript-eslint/no-confusing-void-expression": "off",
+        "@typescript-eslint/strict-boolean-expressions": "off"
       }
     }
   ],
