@@ -15,7 +15,8 @@ module.exports = {
         "@typescript-eslint/no-namespace": "off",
         "@typescript-eslint/consistent-type-imports": "off",
         "@typescript-eslint/no-confusing-void-expression": "off",
-        "@typescript-eslint/strict-boolean-expressions": "off"
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/method-signature-style": "off"
       }
     }
   ],
