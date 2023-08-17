@@ -207,4 +207,26 @@ describe('SignUp Controller', () => {
       password: 'any_password'
     })
   })
+
+  it('should call AddCount with correct values', () => {
+    const { sut, addAccountSub } = makeSut()
+    const addSpy = jest.spyOn(addAccountSub, 'add').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
+      }
+    }
+
+    sut.handle(httpRequest)
+    expect(addSpy).toHaveBeenCalledWith({
+      name: 'any_name',
+      email: 'any_email@email.com',
+      password: 'any_password'
+    })
+  })
 })
