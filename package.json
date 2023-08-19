@@ -20,6 +20,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/jest": "^29.5.3",
     "@types/module-alias": "^2.0.2",
     "@types/node": "^20.5.0",
@@ -38,6 +39,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "module-alias": "^2.2.3",
     "rimraf": "^5.0.1",
     "validator": "^13.11.0"
