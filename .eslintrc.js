@@ -18,6 +18,7 @@ module.exports = {
         "@typescript-eslint/strict-boolean-expressions": "off",
         "@typescript-eslint/method-signature-style": "off",
         "@typescript-eslint/no-misused-promises": "off",
+        "@typescript-eslint/prefer-nullish-coalescing": "off"
       }
     }
   ],
