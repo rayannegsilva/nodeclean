@@ -1,26 +1,23 @@
 import { Collection, MongoClient } from 'mongodb'
 
 export const MongoHelper = {
-  client: undefined as unknown as MongoClient,
-  uri: undefined as unknown as string,
+  client: undefined as unknown as MongoClient | undefined,
+  uri: undefined as unknown as string | undefined,
 
   connect: async (uri: string): Promise<void> => {
     MongoHelper.client = await MongoClient.connect(uri)
     MongoHelper.uri = uri
   },
 
-  async disconnect () {
+  async disconnect (): Promise<void> {
     await MongoHelper.client?.close()
-    // MongoHelper.client = undefined
+    MongoHelper.client = undefined
   },
 
-  getCollection (name: string): Collection {
-    return MongoHelper.client?.db().collection(name)
+  async getCollection (name: string): Promise<Collection> {
+    if (!MongoHelper.client) MongoHelper.client = await MongoClient.connect(MongoHelper.uri as string)
+    return MongoHelper.client.db().collection(name)
   },
-  // getCollection: async <CollectionType extends Document>(name: string): Promise<Collection<CollectionType>> => {
-  //   if (!MongoHelper.client) MongoHelper.client = await MongoClient.connect(MongoHelper.uri as string)
-  //   return MongoHelper.client?.db().collection(name)
-  // }
 
   map (collection: any): any {
     if (collection?._id) {
