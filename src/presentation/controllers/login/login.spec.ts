@@ -1,4 +1,4 @@
-import { MissingParamError } from '../../../presentation/erros'
+import { InvalidParamError, MissingParamError } from '../../../presentation/erros'
 import { LoginController } from './login'
 import { badRequest } from '../../../presentation/helpers/http-helper'
 import { EmailValidator } from '../signUp/signup-protocols'
@@ -62,5 +62,18 @@ describe('Login Controller', () => {
     }
     await sut.handle(httpRequest)
     expect(isValidSpy).toHaveBeenCalledWith('valid_email@mail.com')
+  })
+
+  it('should return 400 if an invalid email is provided', async () => {
+    const { sut, emailValidatorStub } = makeSut()
+    jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
+    const httpRequest = {
+      body: {
+        email: 'valid_email@mail.com',
+        password: 'any_password'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(badRequest(new InvalidParamError('email')))
   })
 })
