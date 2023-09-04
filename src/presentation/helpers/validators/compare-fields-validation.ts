@@ -1,4 +1,4 @@
-import { InvalidParamError } from '@/presentation/erros'
+import { InvalidParamError } from '../../../presentation/erros'
 import { Validation } from './validation'
 
 export class CompareFieldsValidation implements Validation {
@@ -11,7 +11,7 @@ export class CompareFieldsValidation implements Validation {
   }
 
   validate (input: any): Error | null {
-    if (!input[this.fieldName] !== input[this.fieldToCompareName]) {
+    if (input[this.fieldName] !== input[this.fieldToCompareName]) {
       return new InvalidParamError(this.fieldToCompareName)
     }
 
