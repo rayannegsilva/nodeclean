@@ -1,5 +1,5 @@
 import { ServerError, InvalidParamError, MissingParamError } from '../../erros'
-import { EmailValidator, AddAccount, AccountModel, AddAccountModel, HttpRequest } from './signup-protocols'
+import { EmailValidator, AddAccount, AccountModel, AddAccountModel, HttpRequest, Validation } from './signup-protocols'
 import { SignUpController } from './signUp'
 import { ok, serverError, badRequest } from '../../helpers/http-helper'
 
@@ -7,6 +7,7 @@ interface SutTypes {
   sut: SignUpController
   emailValidatorStub: EmailValidator
   addAccountSub: AddAccount
+  validationStub: Validation
 }
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -25,6 +26,16 @@ const makeEmailValidator = (): EmailValidator => {
   }
 
   return new EmailValidatorStub()
+}
+
+const makeValidation = (): Validation => {
+  class ValidationStub implements Validation {
+    validate (input: any): Error | null {
+      return null
+    }
+  }
+
+  return new ValidationStub()
 }
 
 const makeFakeAccount = (): AccountModel => ({
@@ -47,12 +58,14 @@ const makeAddAccount = (): AddAccount => {
 const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator()
   const addAccountSub = makeAddAccount()
-  const sut = new SignUpController(emailValidatorStub, addAccountSub)
+  const validationStub = makeValidation()
+  const sut = new SignUpController(emailValidatorStub, addAccountSub, validationStub)
 
   return {
     sut,
     emailValidatorStub,
-    addAccountSub
+    addAccountSub,
+    validationStub
   }
 }
 
@@ -185,5 +198,16 @@ describe('SignUp Controller', () => {
     const httpResponse = await sut.handle(makeFakeRequest())
 
     expect(httpResponse).toEqual(ok(makeFakeAccount()))
+  })
+
+  it('should call Validation with correct value', async () => {
+    const { sut, validationStub } = makeSut()
+    const validateSpy = jest.spyOn(validationStub, 'validate')
+    const httpRequest = makeFakeRequest()
+    await sut.handle(httpRequest)
+
+    expect(validateSpy).toHaveBeenCalledWith(
+      httpRequest.body
+    )
   })
 })
