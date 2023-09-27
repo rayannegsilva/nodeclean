@@ -9,7 +9,7 @@ describe('Db Authentication', () => {
         const account: AccountModel = {
           id: 'any_id',
           name: 'any_name',
-          email: 'any_email@email.com',
+          email: 'any_email@gmail.com',
           password: 'any_password'
         }
         return await new Promise(resolve => resolve(account))
