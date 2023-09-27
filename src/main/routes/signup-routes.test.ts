@@ -5,6 +5,8 @@ import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper'
 describe('SignUp Routes', () => {
   const MONGO_URL = process.env.MONGO_URL ?? 'any_url'
 
+  console.log(MONGO_URL)
+
   beforeAll(async () => {
     await MongoHelper.connect(MONGO_URL)
   })
@@ -24,8 +26,8 @@ describe('SignUp Routes', () => {
       .send({
         name: 'Rayanne',
         email: 'rgilodasilva@gmail.com',
-        password: '123456',
-        passwordConfirmation: '123456'
+        password: '1234',
+        passwordConfirmation: '1234'
       })
       .expect(200)
   })
